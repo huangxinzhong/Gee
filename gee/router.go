@@ -7,8 +7,8 @@ import (
 )
 
 type router struct {
-	roots    map[string]*node
-	handlers map[string]HandlerFunc
+	roots    map[string]*node       // 方法和路由的映射
+	handlers map[string]HandlerFunc // 方法和函数的映射
 }
 
 // roots key eg, roots['GET'] roots['POST']
