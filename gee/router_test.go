@@ -27,9 +27,10 @@ func TestParsePattern(t *testing.T) {
 
 func TestGetRoue(t *testing.T) {
 	r := NewTestRouter()
+	t.Log(r.roots)
 	n, ps := r.getRoute("GET", "/hello/geektutu")
-
 	if n.pattern != "/hello/:name" {
+
 		t.Fatal("should match /hello/:name")
 	}
 

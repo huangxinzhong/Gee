@@ -1,6 +1,7 @@
 package gee
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"strings"
@@ -72,13 +73,17 @@ func (r *router) getRoute(method string, path string) (*node, map[string]string)
 				break
 			}
 		}
+		log.Printf(n.pattern)
 		return n, params
 	}
 	return nil, nil
 }
 
 func (r *router) handle(c *Context) {
+	fmt.Println(c)
+	c.String(0, "c: %v\n", c)
 	n, params := r.getRoute(c.Method, c.Path)
+	c.String(0, "route: %v, %s\n", n, params)
 	if n != nil {
 		c.Params = params
 		key := c.Method + "-" + c.Path
