@@ -1,7 +1,6 @@
 package gee
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"strings"
@@ -80,10 +79,10 @@ func (r *router) getRoute(method string, path string) (*node, map[string]string)
 }
 
 func (r *router) handle(c *Context) {
-	fmt.Println(c)
-	c.String(http.StatusInternalServerError, "c: %v\n", c)
+	//fmt.Println(c)
+	//c.String(http.StatusInternalServerError, "c: %v\n", c)
 	n, params := r.getRoute(c.Method, c.Path)
-	c.String(http.StatusInternalServerError, "route: %v, %s\n", n, params)
+	//c.String(http.StatusInternalServerError, "route: %v, %s\n", n, params)
 	if n != nil {
 		c.Params = params
 		key := c.Method + "-" + c.Path
