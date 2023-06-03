@@ -38,4 +38,13 @@ func TestGetRoue(t *testing.T) {
 		t.Fatal("name should be equal to 'geektutu'")
 	}
 	fmt.Printf("matched path: %s, params['name']: %s\n", n.pattern, ps["name"])
+
+}
+
+func TestGee(t *testing.T) {
+	r := New()
+	r.addRoute("GET", "/", nil)
+	r.addRoute("GET", "/hello/:name", nil)
+
+	r.Run(":9999")
 }

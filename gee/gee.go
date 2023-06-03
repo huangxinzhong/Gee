@@ -9,12 +9,17 @@ type HandlerFunc func(*Context)
 
 // Engine implement the interface of ServeHTTP
 type Engine struct {
+	*RouterGroup
 	router *router
+	groups []*RouterGroup // store all groups
 }
 
 // New is the constructor of gee.Engine
 func New() *Engine {
-	return &Engine{router: newRouter()}
+	engine := &Engine{router: newRouter()}
+	engine.RouterGroup = &RouterGroup{engine: engine}
+	engine.groups = []*RouterGroup{engine.RouterGroup}
+	return engine
 }
 
 // 添加路由和方法映射
