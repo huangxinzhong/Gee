@@ -17,6 +17,7 @@ func New() *Engine {
 	return &Engine{router: newRouter()}
 }
 
+// 添加路由和方法映射
 func (engine *Engine) addRoute(method string, pattern string, handler HandlerFunc) {
 	engine.router.addRoute(method, pattern, handler)
 }

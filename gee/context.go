@@ -8,18 +8,20 @@ import (
 
 type H map[string]interface{}
 
+// Context 上下文，web 信息的封装
 type Context struct {
 	// origin objects
-	Writer http.ResponseWriter
-	Req    *http.Request
+	Writer http.ResponseWriter // 返回
+	Req    *http.Request       // 请求
 	//Request info
-	Path   string
-	Method string
-	Params map[string]string
+	Path   string            // 请求路径
+	Method string            // 请求方法
+	Params map[string]string // 路由参数
 	// response info
-	StatusCode int
+	StatusCode int // 状态码
 }
 
+// Param 匹配状态码
 func (c *Context) Param(key string) string {
 	value, _ := c.Params[key]
 	return value
@@ -52,7 +54,7 @@ func (c *Context) SetHeader(key string, value string) {
 }
 
 func (c *Context) String(code int, format string, values ...interface{}) {
-	c.SetHeader("Content-Type", "text/plain")
+	c.SetHeader("Context-Type", "text/plain")
 	c.Status(code)
 	c.Writer.Write([]byte(fmt.Sprintf(format, values...)))
 }

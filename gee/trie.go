@@ -12,6 +12,7 @@ type node struct {
 	isWild   bool    // 是否精确匹配， part 含有 ： 或 * 时为true
 }
 
+// 路由信息
 func (n *node) String() string {
 	return fmt.Sprintf("node{pattern=%s, part=%s, isWild=%t}", n.pattern, n.part, n.isWild)
 }
@@ -38,6 +39,7 @@ func (n *node) matchChildren(part string) []*node {
 	return nodes
 }
 
+// insert 存储路由
 func (n *node) insert(pattern string, parts []string, height int) {
 	if len(parts) == height {
 		n.pattern = pattern
@@ -53,7 +55,9 @@ func (n *node) insert(pattern string, parts []string, height int) {
 	child.insert(pattern, parts, height+1)
 }
 
+// search 查询路由
 func (n *node) search(parts []string, height int) *node {
+	// 深度已经到顶或者以 * 开头，则返回
 	if len(parts) == height || strings.HasPrefix(n.part, "*") {
 		if n.pattern == "" {
 			return nil
@@ -61,6 +65,7 @@ func (n *node) search(parts []string, height int) *node {
 		return n
 	}
 
+	//
 	part := parts[height]
 	children := n.matchChildren(part)
 
