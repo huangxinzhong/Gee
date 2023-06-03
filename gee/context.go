@@ -19,6 +19,10 @@ type Context struct {
 	Params map[string]string // 路由参数
 	// response info
 	StatusCode int // 状态码
+
+	// middleware
+	handlers []HandlerFunc
+	index    int
 }
 
 // Param 匹配状态码
@@ -33,6 +37,7 @@ func newContext(w http.ResponseWriter, r *http.Request) *Context {
 		Req:    r,
 		Path:   r.URL.Path,
 		Method: r.Method,
+		index:  -1,
 	}
 }
 
@@ -77,4 +82,20 @@ func (c *Context) HTML(code int, html string) {
 	c.SetHeader("Context-Type", "text/html")
 	c.Status(code)
 	c.Writer.Write([]byte(html))
+}
+
+func (c *Context) Next() {
+	c.index++
+	//fmt.Println("Next: ", &c.StatusCode)
+	s := len(c.handlers)
+	//fmt.Println("Next: ", s)
+	for ; c.index < s; c.index++ {
+		fmt.Printf("Next: index: %d, statusCode: %d\n", c.index, c.StatusCode)
+		c.handlers[c.index](c)
+	}
+}
+
+func (c *Context) Fail(code int, err string) {
+	c.index = len(c.handlers)
+	c.JSON(code, H{"message": err})
 }
